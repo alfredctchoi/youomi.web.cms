@@ -1,0 +1,3 @@
+- add ng-constant
+- refactor structure
+- add sign up
