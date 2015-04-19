@@ -7,11 +7,17 @@
 
   function TransactionService($http, $q, configs) {
 
-    var dashboardUrl = configs.baseUrl + 'transaction';
+    var dashboardUrl = configs.baseUrl + 'transaction',
+      addSubscriptionNotification = [];
 
     this.getOutstandingItems = getOutstandingItems;
     this.create = create;
     this.remindUser = remindUser;
+    this.subscribeToCreate = subscribeToCreate;
+
+    function subscribeToCreate(callback){
+      addSubscriptionNotification.push(callback);
+    }
 
     function getOutstandingItems (){
       var listUrl  = dashboardUrl + '/list',
@@ -35,6 +41,10 @@
         prom = $http.post(dashboardUrl, postData);
 
       prom.success(function(newTransaction){
+        addSubscriptionNotification.forEach(function(callback){
+          callback(newTransaction);
+        });
+
         d.resolve(newTransaction);
       });
 

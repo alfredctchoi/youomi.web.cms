@@ -1,12 +1,12 @@
 <div ng-controller="OutstandingItemsCtrl as outstandingItem">
 
-  <div ng-repeat="record in outstandingItem.owers" class="panel panel-default">
+  <div ng-repeat="record in outstandingItem.records" class="panel panel-default">
     <div class="panel-body">
       <div class="row">
         <div class="col-sm-8 owed-item">
-          <h3>{{record.ower.name}}</h3>
+          <h3>{{record.name}}</h3>
 
-          <div>{{record.ower.email}}</div>
+          <div>{{record.email}}</div>
           <div>
             <a href="" ng-click="record.expanded = !record.expanded">
               {{record.transactions.length}} items owed
