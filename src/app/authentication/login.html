@@ -7,6 +7,9 @@
       </div>
       <div class="form-group">
         <label>Password</label>
+        <a ui-sref="home.forgot-password">
+          <i><small>Forgot password?</small></i>
+        </a>
         <input type="password" class="form-control" placeholder="Email" ng-model="login.credentials.password" required/>
       </div>
       <div ng-show="login.state === login.states.loginError" class="form-group">

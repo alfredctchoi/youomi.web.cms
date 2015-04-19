@@ -27,6 +27,7 @@
         .then(function (data) {
           vm.owed = data.owed;
           vm.owe = data.owe;
+          console.log(vm.owed);
         });
 
       TransactionService.subscribeToCreate(update);
@@ -82,9 +83,11 @@
       vm.owed.push(record);
     }
 
-    function remind(userId) {
-      TransactionService.remindUser(userId).then(function (data) {
-
+    function remind(record, userId) {
+      TransactionService
+        .remindUser(userId)
+        .then(function (updatedRecord) {
+          record.lastReminded = updatedRecord.lastReminded;
       }, function (error) {
 
       });

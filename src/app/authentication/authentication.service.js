@@ -11,6 +11,44 @@
     this.session = null;
     this.authenticate = authenticate;
     this.logout = logout;
+    this.forgotPassword = forgotPassword;
+    this.resetPassword = resetPassword;
+    this.validateResetToken = validateResetToken;
+
+    function resetPassword(guid, password){
+      var d = $q.defer(),
+        forgotPasswordUrl = authUrl + '/reset-password/' + guid,
+        putData = {password: password},
+        promise = $http.put(forgotPasswordUrl, putData);
+
+      promise.success(d.resolve);
+      promise.error(d.reject);
+
+      return d.promise;
+    }
+
+    function validateResetToken(guid){
+      var d = $q.defer(),
+        validateUrl = authUrl + '/reset-password-validate/' + guid,
+        promise = $http.get(validateUrl);
+
+      promise.success(d.resolve);
+      promise.error(d.reject);
+
+      return d.promise;
+    }
+
+    function forgotPassword(email){
+      var d = $q.defer(),
+        forgotPasswordUrl = authUrl + '/reset-password',
+        postData = {email: email},
+        promise = $http.post(forgotPasswordUrl, postData);
+
+      promise.success(d.resolve);
+      promise.error(d.reject);
+
+      return d.promise;
+    }
 
     function authenticate(email, password) {
       var d = $q.defer(),

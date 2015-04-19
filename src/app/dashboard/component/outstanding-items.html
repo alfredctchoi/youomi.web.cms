@@ -11,14 +11,17 @@
       <div class="row">
         <div class="col-sm-8 owed-item">
           <strong>{{record.name}}</strong>
-
-          <div>{{record.email}}</div>
+          <i class="help">({{record.email}})</i>
+          <div>
+            Last reminded:
+            <i>{{record.lastReminded ? (record.lastReminded | Moment: 'LLL') : 'Never'}}</i>
+          </div>
           <div>
             {{record.transactions.length}} items owed
           </div>
         </div>
         <div class="col-sm-4 text-right">
-          <button ng-click="osi.remind(record.owerId)" type="button" class="btn btn-primary">
+          <button ng-click="osi.remind(record, record.owerId)" type="button" class="btn btn-primary">
             Remind
           </button>
         </div>
