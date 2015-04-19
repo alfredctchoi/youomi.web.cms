@@ -1,29 +1,30 @@
-(function(){
+(function () {
 
-'use strict';
+  'use strict';
 
-angular.module('youomi.core').factory('HttpInterceptor', HttpInterceptor);
+  angular.module('youomi.core').factory('HttpInterceptor', HttpInterceptor);
 
-function HttpInterceptor(configs, SessionService){
-  var interceptor = {};
-  interceptor.request = request;
+  function HttpInterceptor(configs, SessionService) {
+    var interceptor = {};
 
-  return interceptor;
+    interceptor.request = request;
 
-  function request (config) {
-    var session = SessionService.getSession();
+    return interceptor;
 
-    config.headers[configs.appTokenHeaderKey] = configs.appKey;
+    function request(config) {
+      var session = SessionService.getSession();
 
-    if (session){
-      config.headers[configs.userIdHeaderKey] = session.user.id;
-      config.headers[configs.authTokenHeaderKey] = session.guid;
+      config.headers[configs.appTokenHeaderKey] = configs.appKey;
+
+      if (session) {
+        config.headers[configs.userIdHeaderKey] = session.user.id;
+        config.headers[configs.authTokenHeaderKey] = session.guid;
+      }
+
+      return config;
     }
-
-    return config;
   }
-}
 
-HttpInterceptor.$inject = ['configs', 'SessionService'];
+  HttpInterceptor.$inject = ['configs', 'SessionService'];
 
 })();

@@ -1,0 +1,13 @@
+<div ng-controller="TransactionCtrl as trans" ng-init="trans.complete(trans.completeId)">
+  <div ng-show="trans.state === trans.states.loading">
+    Completing request...
+  </div>
+
+  <div ng-show="trans.state === trans.states.error">
+    {{trans.error}}
+  </div>
+
+  <div ng-show="trans.state === trans.states.ok">
+    Your item has been marked returned.
+  </div>
+</div>

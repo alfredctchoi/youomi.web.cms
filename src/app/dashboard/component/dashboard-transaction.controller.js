@@ -5,7 +5,7 @@
 (function () {
     'use strict';
 
-  function TransactionCtrl(TransactionService) {
+  function DashboardTransactionCtrl(TransactionService) {
 
     var vm = this;
     vm.create = create;
@@ -20,6 +20,7 @@
         owerEmail:'',
         owerName:''
       };
+      vm.showCreate = false;
     }
 
     function create(transaction){
@@ -27,17 +28,16 @@
 
       TransactionService
         .create(transaction.type, transaction.value, transaction.owerEmail, transaction.owerName)
-        .then(function(newTransaction){
+        .then(function(){
           init();
         }, function(error){
           console.log(error);
         });
     }
-
   }
 
-  TransactionCtrl.$inject = ['TransactionService'];
+  DashboardTransactionCtrl.$inject = ['TransactionService'];
 
-  angular.module('youomi.dashboard').controller('TransactionCtrl', TransactionCtrl);
+  angular.module('youomi.dashboard').controller('DashboardTransactionCtrl', DashboardTransactionCtrl);
 
 })();

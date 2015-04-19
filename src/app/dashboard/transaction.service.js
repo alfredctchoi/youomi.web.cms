@@ -14,6 +14,41 @@
     this.create = create;
     this.remindUser = remindUser;
     this.subscribeToCreate = subscribeToCreate;
+    this.complete = complete;
+    this.confirm = confirm;
+    this.returnItem = returnItem;
+
+    function returnItem(guid){
+      var d = $q.defer(),
+        completeUrl = dashboardUrl + '/' + guid + '/complete',
+        prom = $http.put(completeUrl, null);
+
+      prom.success(function(data){
+        d.resolve(data);
+      });
+
+      prom.error(function(err){
+        d.reject(err);
+      });
+
+      return d.promise;
+    }
+
+    function confirm (transactionId){
+      var d = $q.defer(),
+        confirmUrl = dashboardUrl + '/' + transactionId + '/confirm',
+        prom = $http.put(confirmUrl, null);
+
+      prom.success(function(data){
+        d.resolve(data);
+      });
+
+      prom.error(function(err){
+        d.reject(err);
+      });
+
+      return d.promise;
+    }
 
     function subscribeToCreate(callback){
       addSubscriptionNotification.push(callback);
@@ -50,6 +85,22 @@
 
       prom.error(function(error){
         d.reject(error);
+      });
+
+      return d.promise;
+    }
+
+    function complete(id){
+      var d = $q.defer(),
+        completeUrl = dashboardUrl + '/' + id + '/complete',
+        prom = $http.put(completeUrl, null);
+
+      prom.success(function(data){
+        d.resolve(data)
+      });
+
+      prom.error(function(err){
+        d.reject(err);
       });
 
       return d.promise;
