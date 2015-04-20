@@ -17,6 +17,23 @@
     this.complete = complete;
     this.confirm = confirm;
     this.returnItem = returnItem;
+    this.reactivate = reactivate;
+
+    function reactivate(transactionId){
+      var d = $q.defer(),
+        reactivateUrl = dashboardUrl + '/' + transactionId + '/reactivate',
+        prom = $http.put(reactivateUrl, null);
+
+      prom.success(function(data){
+        d.resolve(data);
+      });
+
+      prom.error(function(err){
+        d.reject(err);
+      });
+
+      return d.promise;
+    }
 
     function returnItem(guid){
       var d = $q.defer(),

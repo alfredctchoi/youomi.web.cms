@@ -3,14 +3,14 @@
     <form ng-submit="login.authenticate(login.credentials)" ng-hide="login.view==='signup'">
       <div class="form-group">
         <label>Email</label>
-        <input type="text" class="form-control" placeholder="Email" ng-model="login.credentials.email" required/>
+        <input tabindex="1" type="text" class="form-control" placeholder="Email" ng-model="login.credentials.email" required/>
       </div>
       <div class="form-group">
         <label>Password</label>
         <a ui-sref="home.forgot-password">
           <i><small>Forgot password?</small></i>
         </a>
-        <input type="password" class="form-control" placeholder="Email" ng-model="login.credentials.password" required/>
+        <input tabindex="2" type="password" class="form-control" placeholder="Email" ng-model="login.credentials.password" required/>
       </div>
       <div ng-show="login.state === login.states.loginError" class="form-group">
         <div class="alert alert-danger">

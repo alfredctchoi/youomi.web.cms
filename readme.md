@@ -1,3 +1,6 @@
-- add ng-constant
+- reactivate transaction if not complete [done]
+- add ability to register from return page
+- add ability to return multiple items from return page
+- update user session token to be more secure
 - refactor structure
-- add sign up
+- add error handling in dashboard

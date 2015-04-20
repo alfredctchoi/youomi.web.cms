@@ -6,48 +6,56 @@
     <i>No one currently owes you anything</i>
   </div>
 
-  <div ng-repeat="record in osi.owed" class="panel panel-default">
-    <div class="panel-body" ng-class="{'bg-warning': record.update}">
-      <div class="row">
-        <div class="col-sm-8 owed-item">
-          <strong>{{record.name}}</strong>
-          <i class="help">({{record.email}})</i>
-          <div>
-            Last reminded:
-            <i>{{record.lastReminded ? (record.lastReminded | Moment: 'LLL') : 'Never'}}</i>
-          </div>
-          <div>
-            {{record.transactions.length}} items owed
-          </div>
-        </div>
-        <div class="col-sm-4 text-right">
-          <button ng-click="osi.remind(record, record.owerId)" type="button" class="btn btn-primary">
-            Remind
-          </button>
+  <div class="gutter owed-item" ng-repeat="record in osi.owed">
+    <div class="row" >
+      <div class="col-sm-8">
+        <h4>
+          {{record.name}}
+          <small>({{record.transactions.length}} items)</small>
+        </h4>
+        <div>
+          <small class="text-muted">
+            <i> Last reminder: {{record.lastReminded ? (record.lastReminded | Moment: 'LL') : 'Never'}}</i>
+          </small>
         </div>
       </div>
+      <div class="col-sm-4 text-right">
+        <button ng-click="osi.remind(record, record.owerId)" type="button" class="btn btn-primary btn-sm">
+        Remind
+        </button>
+      </div>
     </div>
-    <table class="table">
-      <tr ng-repeat="transaction in record.transactions">
-        <td width="75px" style="vertical-align: middle">
+
+    <div class="panel panel-default gutter-sm">
+      <table class="table table-condensed">
+        <tr ng-repeat="transaction in record.transactions"
+            ng-class="{'bg-info': transaction.status === osi.transactionStatus.returned}">
+          <td width="75px" style="vertical-align: middle">
           <span class="label label-success" ng-show="transaction.status === osi.transactionStatus.returned">
             Returned
           </span>
           <span class="label label-info" ng-show="transaction.status === osi.transactionStatus.active">
             Outstanding
           </span>
-        </td>
-        <td style="vertical-align: middle">
-          <span>{{transaction.value}}</span>
-        </td>
-        <td class="text-right">
-          <button type="button" ng-click="osi.confirm(record.id, transaction.id)" class="btn btn-sm btn-default">
-            Returned
-          </button>
-
-        </td>
-      </tr>
-    </table>
+          </td>
+          <td style="vertical-align: middle">
+            <span>{{transaction.value}}</span>
+          </td>
+          <td class="text-right">
+            <button type="button"
+                    ng-click="osi.confirm(record.id, transaction.id)"
+                    class="btn btn-sm btn-default">
+              Confirm
+            </button>
+            <button
+              ng-show="transaction.status === osi.transactionStatus.returned"
+              type="button" ng-click="osi.reactivate(transaction, transaction.id)" class="btn btn-sm btn-default">
+              Nope
+            </button>
+          </td>
+        </tr>
+      </table>
+    </div>
   </div>
 
   <hr/>
@@ -58,25 +66,37 @@
     <i>You currently do not owe anything</i>
   </div>
 
-  <div ng-repeat="record in osi.owe" class="panel panel-default">
-    <div class="panel-body">
-      <div class="owed-item">
-        <strong>{{record.name}}</strong>
-
-        <div>{{record.email}}</div>
-        <div>
-            {{record.transactions.length}} items owed
-        </div>
+  <div class="gutter owed-item" ng-repeat="record in osi.owe">
+    <div class="row">
+      <div class="col-sm-12">
+        <h4>
+          {{record.name}}
+          <small>({{record.transactions.length}} items)</small>
+        </h4>
       </div>
     </div>
-    <table class="table">
-      <tr ng-repeat="transaction in record.transactions">
-        <td style="vertical-align: middle">{{transaction.value}}</td>
-        <td class="text-right">
-          <button type="button" ng-click="osi.returnItem(record.id, transaction.identifier)" class="btn btn-sm btn-default">Return</button>
-        </td>
-      </tr>
-    </table>
-  </div>
 
+    <div class="panel panel-default gutter-sm">
+      <table class="table table-condensed">
+        <tr ng-repeat="transaction in record.transactions">
+          <td width="75px" style="vertical-align: middle">
+          <span class="label label-success" ng-show="transaction.status === osi.transactionStatus.returned">
+            Returned
+          </span>
+          <span class="label label-info" ng-show="transaction.status === osi.transactionStatus.active">
+            Outstanding
+          </span>
+          </td>
+          <td style="vertical-align: middle">
+            <span>{{transaction.value}}</span>
+          </td>
+          <td class="text-right">
+            <button type="button" ng-click="osi.confirm(record.id, transaction.id)" class="btn btn-sm btn-default">
+              Returned
+            </button>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
 </div>

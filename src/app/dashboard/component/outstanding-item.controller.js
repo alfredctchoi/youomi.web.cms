@@ -11,6 +11,7 @@
     vm.remind = remind;
     vm.confirm = confirm;
     vm.returnItem = returnItem;
+    vm.reactivate = reactivate;
     vm.transactionStatus = {
       returned: 2,
       active: 1
@@ -31,6 +32,16 @@
         });
 
       TransactionService.subscribeToCreate(update);
+    }
+
+    function reactivate(transaction, transactionId){
+      TransactionService
+        .reactivate(transactionId)
+        .then(function(){
+          transaction.status = vm.transactionStatus.active;
+        },function(error){
+          console.log(error);
+        })
     }
 
     function returnItem(recordId, transactionGuid){
