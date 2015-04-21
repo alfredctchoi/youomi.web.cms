@@ -17,7 +17,7 @@
         templateUrl: 'app/user/views/registration-complete.html'
       })
       .state('home.user.activate', {
-        url: '/activate?id',
+        url: '/activate/:id',
         templateUrl: 'app/user/views/activate.html'
       });
   }
