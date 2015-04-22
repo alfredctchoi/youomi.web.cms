@@ -11,14 +11,6 @@
         url:'user',
         abstract:true,
         template: '<ui-view></ui-view>'
-      })
-      .state('home.user.registration-complete', {
-        url: '/registration-complete',
-        templateUrl: 'app/user/views/registration-complete.html'
-      })
-      .state('home.user.activate', {
-        url: '/activate/:id',
-        templateUrl: 'app/user/views/activate.html'
       });
   }
 

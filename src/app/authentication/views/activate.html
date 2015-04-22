@@ -1,0 +1,16 @@
+<div class="row" ng-controller="AccountCtrl as account" ng-init="account.activate(account.guid)">
+  <div class="col-lg-6 col-lg-offset-3">
+    <div ng-show="account.state === account.states.ok">
+      <h1>Your account is now active</h1>
+      <p>Please login below to continue.</p>
+      <div ng-include="'app/authentication/views/login-main.html'"></div>
+    </div>
+
+    <h1 ng-show="account.state === account.states.loading">Activating your account..</h1>
+
+    <div ng-show="account.state === account.states.error">
+    <h1>Activation was unsuccessful</h1>
+      <p>We could not verify your account.</p>
+    </div>
+  </div>
+</div>

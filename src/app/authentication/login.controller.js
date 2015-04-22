@@ -3,18 +3,17 @@
   'use strict';
 
 
-  function LoginCtrl(AuthenticationService, UserService, $state) {
+  function LoginCtrl(AuthenticationService, $cacheFactory, $state) {
 
-    var vm = this;
+    var vm = this,
+      cacheKeys = {
+        main: 'login',
+        sub: {
+          account: 'account'
+        }
+      },
+      cache = $cacheFactory.get(cacheKeys.main) || $cacheFactory(cacheKeys.main);
 
-    // methods
-    vm.authenticate = authenticate;
-    vm.register = register;
-    vm.forgotPassword = forgotPassword;
-    vm.resetPassword = resetPassword;
-    vm.validateResetToken = validateResetToken;
-
-    // properties
     vm.states = {
       ok: 0,
       registerError: 1,
@@ -29,86 +28,49 @@
       invalidResetToken: 10
     };
 
+
+    // methods
+    vm.authenticateFromHome = authenticateFromHome;
+
+
     init();
 
     function init() {
-      vm.view = 'login';
+
+      var loginCache = cache.get(cacheKeys.sub.account);
+      if (loginCache) {
+        vm.credentials = loginCache;
+        cache.put(cacheKeys.sub.account, null);
+        return;
+      }
+
       vm.credentials = {
         email: '',
         password: ''
       };
 
-      vm.account = {
-        email:'',
-        password: '',
-        name:''
-      };
-
-      vm.state = vm.states.ok;
       vm.resetPasswordGuid = $state.params.resetPasswordGuid;
     }
 
-    function validateResetToken(guid){
-      AuthenticationService
-        .validateResetToken(guid)
-        .then(function(){
-          vm.state = vm.states.validResetToken;
-        }, function(){
-          vm.state = vm.states.invalidResetToken
-        })
-    }
+    function authenticateFromHome(credentials) {
 
-    function resetPassword (guid, password){
-      AuthenticationService
-        .resetPassword(guid, password)
-        .then(function(){
-          vm.state = vm.states.resetPasswordSuccess;
-        }, function(error){
-          vm.state = vm.states.resetPasswordError;
-          vm.error = error.message;
-        })
-    }
+      if (!credentials.email || !credentials.password){
+        cache.put(cacheKeys.sub.account, credentials);
+        $state.go('home.login');
+        return;
+      }
 
-    function authenticate(credentials) {
       AuthenticationService.authenticate(credentials.email, credentials.password)
         .then(function(){
           $state.go('dashboard.home');
         }, function(error){
-          vm.state = vm.states.loginError;
-          vm.error = error.code;
+          cache.put(cacheKeys.sub.account, credentials);
+          $state.go('home.login');
         });
     }
-
-    function register(account) {
-      //todo: validation
-      var registerPromise = UserService.register(account.name, account.email, account.password);
-      registerPromise.then(function(){
-        $state.go('home.user.registration-complete');
-      }, function(error){
-        vm.state = vm.states.registerError;
-        vm.error = error.message;
-      });
-    }
-
-    function forgotPassword(email){
-      if (!email){
-        vm.state = vm.states.invalidEmail;
-        return;
-      }
-
-      AuthenticationService
-        .forgotPassword(email)
-        .then(function(){
-          vm.state = vm.states.forgotPasswordSuccess;
-        }, function(error){
-          vm.state = vm.states.forgotPasswordError;
-          vm.error = error.message;
-        });
-    }
-
   }
 
-  LoginCtrl.$inject = ['AuthenticationService', 'UserService', '$state'];
+  LoginCtrl.$inject = ['AuthenticationService', '$cacheFactory', '$state'];
 
 
   angular.module('youomi').controller('LoginCtrl', LoginCtrl);

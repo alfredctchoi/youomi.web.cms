@@ -1,0 +1,34 @@
+<div ng-controller="LoginCtrl as login">
+  <form ng-submit="login.authenticateFromHome(login.credentials)" novalidate>
+    <table style="width: 100%">
+      <tr>
+        <td colspan="2">
+          <div class="form-group">
+            <input tabindex="1" type="text" class="form-control input-sm" placeholder="Email"
+                   ng-model="login.credentials.email"
+                   required/>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <div class="form-group">
+            <input tabindex="2" type="password" class="form-control input-sm" placeholder="Password"
+                   ng-model="login.credentials.password" required/>
+
+            <div class="text-right">
+              <a ui-sref="home.account.forgot-password">
+                <i>
+                  <small>Forgot password?</small>
+                </i>
+              </a>
+            </div>
+          </div>
+        </td>
+        <td class="text-right" style="vertical-align: top">
+          <input type="submit" class="btn btn-primary" value="Login"/></td>
+      </tr>
+    </table>
+  </form>
+
+</div>

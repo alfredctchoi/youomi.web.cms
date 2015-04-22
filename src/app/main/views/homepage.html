@@ -1,19 +1,18 @@
-<div class="jumbotron text-center">
-  <h1>'Allo, 'Allo!</h1>
-
-  <p class="lead">
-    <img src="assets/images/yeoman.png" alt="I'm Yeoman"><br>
-    Always a pleasure scaffolding your apps.
-  </p>
-
-  <p><a class="btn btn-lg btn-success" ng-href="#">Splendid!</a></p>
-</div>
-
 <div class="row">
-  <div class="col-sm-5">
-    <div ng-include="'app/authentication/login.html'"></div>
-  </div>
-  <div class="col-sm-7">
+  <div class="col-lg-8">
+    <div class="jumbotron text-center">
+      <h1>'Allo, 'Allo!</h1>
 
+      <p class="lead">
+        <img src="assets/images/yeoman.png" alt="I'm Yeoman"><br>
+        Always a pleasure scaffolding your apps.
+      </p>
+
+      <p><a class="btn btn-lg btn-success" ng-href="#">Splendid!</a></p>
+    </div>
+  </div>
+  <div class="col-lg-4">
+    <div ng-include="'app/authentication/views/login.html'"></div>
+    <div ng-include="'app/authentication/views/register.html'"></div>
   </div>
 </div>

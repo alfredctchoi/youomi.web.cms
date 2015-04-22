@@ -45,14 +45,6 @@
       .state('home.unauthorized', {
         url: 'unauthorized',
         templateUrl: 'app/main/views/unauthorized.html'
-      })
-      .state('home.forgot-password', {
-        url: 'forgot-password',
-        templateUrl: 'app/main/views/forgot-password.html'
-      })
-      .state('home.reset-password', {
-        url: 'reset-password/:resetPasswordGuid',
-        templateUrl: 'app/main/views/reset-password.html'
       });
 
     $urlRouterProvider.otherwise('/');
