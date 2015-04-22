@@ -1,33 +1,6 @@
 <div class="row">
   <div class="col-lg-6 col-lg-offset-3">
     <h1>Login</h1>
-    <div ng-controller="LoginCtrl as login">
-      <form ng-submit="login.authenticateFromHome(login.credentials)" novalidate>
-
-        <div class="form-group">
-          <label>Email</label>
-          <input tabindex="1" type="text" class="form-control input-sm" placeholder="Email"
-                 ng-model="login.credentials.email"
-                 required/>
-        </div>
-
-        <div class="form-group">
-          <label>Password</label>
-          <a ui-sref="home.forgot-password">
-            <i>
-              <small>Forgot password?</small>
-            </i>
-          </a>
-          <input tabindex="2" type="password" class="form-control input-sm" placeholder="Password"
-                 ng-model="login.credentials.password" required/>
-          </div>
-
-        <div class="text-right form-group">
-          <input type="submit" class="btn btn-primary" value="Login"/>
-        </div>
-      </form>
-
-    </div>
-
+    <div ng-include="'app/authentication/views/login-full.html'"></div>
   </div>
 </div>

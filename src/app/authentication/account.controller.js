@@ -5,7 +5,7 @@
 (function () {
   'use strict';
 
-  function AccountCtrl(UserService, AuthenticationService, $state, $timeout) {
+  function AccountCtrl(UserService, AuthenticationService, $state) {
     var vm = this;
     vm.activate = activate;
     vm.resetPassword = resetPassword;
@@ -37,16 +37,10 @@
     }
 
     function resetPassword(guid, password) {
-      var timeoutProm;
       AuthenticationService
         .resetPassword(guid, password)
         .then(function () {
           vm.state = vm.states.resetPasswordSuccess;
-          $timeout(function(){
-            $timeout.cancel(timeoutProm);
-            timeoutProm = null;
-            $state.go('home.homepage');
-          }, 3000)
         }, function (error) {
           vm.state = vm.states.error;
           vm.error = error.code;
@@ -82,7 +76,7 @@
     }
   }
 
-  AccountCtrl.$inject = ['UserService', 'AuthenticationService', '$state', '$timeout'];
+  AccountCtrl.$inject = ['UserService', 'AuthenticationService', '$state'];
 
   angular.module('youomi.authentication').controller('AccountCtrl', AccountCtrl);
 
