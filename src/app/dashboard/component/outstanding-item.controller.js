@@ -28,7 +28,6 @@
         .then(function (data) {
           vm.owed = data.owed;
           vm.owe = data.owe;
-          console.log(vm.owed);
         });
 
       TransactionService.subscribeToCreate(update);
