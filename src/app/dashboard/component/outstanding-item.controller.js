@@ -7,11 +7,14 @@
 
   function OutstandingItemsCtrl(TransactionService) {
 
-    var vm = this;
+    var vm = this,
+      transactionCache;
     vm.remind = remind;
     vm.confirm = confirm;
     vm.returnItem = returnItem;
     vm.reactivate = reactivate;
+    vm.updateTransaction = updateTransaction;
+    vm.editTransaction = editTransaction;
     vm.transactionStatus = {
       returned: 2,
       active: 1
@@ -31,6 +34,28 @@
         });
 
       TransactionService.subscribeToCreate(update);
+    }
+
+    function editTransaction(transaction){
+      transactionCache = angular.copy(transaction);
+      transaction.showEdit = !transaction.showEdit;
+    }
+
+    function updateTransaction(transaction){
+      if (transactionCache.type === transaction.type && transactionCache.value === transaction.value){
+        transaction.showEdit = false;
+        return;
+      }
+
+      TransactionService.update(transaction.id, transaction.type, transaction.value)
+        .then(function(response){
+
+        }, function(error){
+          console.log(error);
+        })
+        .finally(function(){
+          transaction.showEdit = false;
+        });
     }
 
     function reactivate(transaction, transactionId){

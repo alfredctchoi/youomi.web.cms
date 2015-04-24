@@ -18,6 +18,27 @@
     this.confirm = confirm;
     this.returnItem = returnItem;
     this.reactivate = reactivate;
+    this.update = update;
+
+    function update(id, type, value){
+      var d = $q.defer(),
+        updateUrl = dashboardUrl + '/' + id,
+        putData = {
+          type: type,
+          value: value
+        },
+        prom = $http.put(updateUrl, putData);
+
+      prom.success(function(data){
+        d.resolve(data);
+      });
+
+      prom.error(function(err){
+        d.reject(err);
+      });
+
+      return d.promise;
+    }
 
     function reactivate(transactionId){
       var d = $q.defer(),

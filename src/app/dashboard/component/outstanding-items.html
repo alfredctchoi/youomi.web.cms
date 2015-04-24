@@ -7,7 +7,7 @@
   </div>
 
   <div class="gutter owed-item" ng-repeat="record in osi.owed">
-    <div class="row" >
+    <div class="row">
       <div class="col-sm-8">
         <h4>
           {{record.name}}
@@ -21,16 +21,16 @@
       </div>
       <div class="col-sm-4 text-right">
         <button ng-click="osi.remind(record, record.owerId)" type="button" class="btn btn-primary btn-sm">
-        Remind
+          Remind
         </button>
       </div>
     </div>
 
     <div class="panel panel-default gutter-sm">
-      <table class="table table-condensed">
+      <table class="table table-condensed table-outstanding-items">
         <tr ng-repeat="transaction in record.transactions"
             ng-class="{'bg-info': transaction.status === osi.transactionStatus.returned}">
-          <td width="75px" style="vertical-align: middle">
+          <td width="75px">
           <span class="label label-success" ng-show="transaction.status === osi.transactionStatus.returned">
             Returned
           </span>
@@ -38,20 +38,30 @@
             Outstanding
           </span>
           </td>
-          <td style="vertical-align: middle">
-            <span>{{transaction.value}}</span>
+          <td>
+            <input
+              ng-blur="osi.updateTransaction(transaction)"
+              yom-focus-on="transaction.showEdit"
+              ng-show="transaction.showEdit"
+              type="text"
+              class="inline-text-input"
+              ng-model="transaction.value"/>
+            <span ng-show="!transaction.showEdit" class="item">{{transaction.value}}</span>
           </td>
           <td class="text-right">
-            <button type="button"
-                    ng-click="osi.confirm(record.id, transaction.id)"
-                    class="btn btn-sm btn-default">
-              Confirm
-            </button>
-            <button
-              ng-show="transaction.status === osi.transactionStatus.returned"
-              type="button" ng-click="osi.reactivate(transaction, transaction.id)" class="btn btn-sm btn-default">
-              Nope
-            </button>
+            <a class="action-link" href=""
+               ng-show="transaction.status !== osi.transactionStatus.returned && !transaction.showEdit"
+               ng-click="osi.editTransaction(transaction)" title="Edit">
+              <i class="glyphicon glyphicon-edit"></i>
+            </a>
+            <a class="action-link" href=""
+               ng-show="transaction.status === osi.transactionStatus.returned"
+               ng-click="osi.reactivate(transaction, transaction.id)" title="Reactivate">
+              <i class="glyphicon glyphicon-repeat"></i>
+            </a>
+            <a class="action-link" href="" ng-click="osi.confirm(record.id, transaction.id)" title="Confirm Returned Item">
+              <i class="glyphicon glyphicon-ok"></i>
+            </a>
           </td>
         </tr>
       </table>
