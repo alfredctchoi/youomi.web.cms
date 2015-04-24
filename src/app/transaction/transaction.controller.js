@@ -9,6 +9,7 @@
 
     var vm = this;
     vm.complete = complete;
+    vm.showSignUpForm = false;
     vm.states = {
       none: 0,
       loading: 1,
@@ -27,8 +28,10 @@
       vm.state = vm.states.loading;
       TransactionService
         .complete(id)
-        .then(function(){
+        .then(function(response){
           vm.state = vm.states.ok;
+          vm.showSignUpForm = !response.isUserActive;
+          vm.transaction = response.transaction;
         }, function(err){
           vm.state = vm.states.error;
           vm.error = err.message;

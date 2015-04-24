@@ -16,7 +16,7 @@
       })
       .state('home.transaction.return', {
         url: '/return/:transactionId',
-        templateUrl: 'app/transaction/views/confirm.html'
+        templateUrl: 'app/transaction/views/complete.html'
       });
   }
 

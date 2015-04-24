@@ -1,0 +1,33 @@
+<div ng-controller="TransactionCtrl as trans" ng-init="trans.complete(trans.completeId)">
+  <div class="row">
+    <div class="col-lg-6 col-lg-offset-3">
+      <h1>Item Return</h1>
+
+      <div ng-show="trans.state === trans.states.loading">
+        Completing request...
+      </div>
+
+      <div ng-show="trans.state === trans.states.error">
+        {{trans.error}}
+      </div>
+
+      <div ng-show="trans.state === trans.states.ok">
+        <strong>{{trans.transaction.value}}</strong>
+        has been marked returned and the owner has been notified.
+      </div>
+    </div>
+  </div>
+  <div class="row gutter-lg" ng-show="trans.showSignUpForm">
+    <div class="col-lg-6 col-lg-offset-3">
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <h2>Do people owe you things?</h2>
+
+          <p>Keep track of who owes you what by signing up below.</p>
+
+          <div ng-include="'app/authentication/views/register.html'"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

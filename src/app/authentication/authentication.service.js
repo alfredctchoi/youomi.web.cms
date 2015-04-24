@@ -55,6 +55,8 @@
         postData = {email: email, password: password},
         promise = $http.post(authUrl, postData);
 
+      SessionService.destroy();
+
       promise.success(function (session) {
         that.session = session;
         $cookies[configs.sessionCookieKey] = angular.toJson(that.session);
