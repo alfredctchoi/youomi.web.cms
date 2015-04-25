@@ -53,21 +53,30 @@
                 scope.selectItem(scope.matches[scope.selectedIndex].key);
               });
               break;
+            case 27: //esc
+              e.preventDefault();
+              removeSearch();
+              break;
+
           }
         }
 
         function removeSearch(){
           detachListeners();
-          searchElement.remove();
-          searchElement = null;
+          if (searchElement) {
+            searchElement.remove();
+            searchElement = null;
+          }
         }
 
         function attachListeners() {
           element.on('keydown', keyListenerEvent);
+          element.on('blur', removeSearch);
         }
 
         function detachListeners() {
           element.off('keydown', keyListenerEvent);
+          element.off('blur', removeSearch);
         }
 
         function selectItem(key) {
