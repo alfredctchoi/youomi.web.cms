@@ -75,9 +75,8 @@
           removeSearch();
         }
 
-        function createElement(width) {
+        function createElement() {
           searchElement = $compile(html)(scope);
-          searchElement.css({width: width + 'px'});
           element.after(searchElement);
           attachListeners();
         }
@@ -91,8 +90,7 @@
           }
 
           if (matches.length > 0 && !searchElement) {
-            var elemWidth = element[0].offsetWidth;
-            createElement(elemWidth);
+            createElement();
           }
         }
 

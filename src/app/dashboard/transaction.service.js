@@ -5,7 +5,7 @@
 (function () {
     'use strict';
 
-  function TransactionService($http, $q, configs) {
+  function TransactionService($http, $q, configs, DashboardService, User) {
 
     var dashboardUrl = configs.baseUrl + 'transaction',
       addSubscriptionNotification = [];
@@ -110,6 +110,7 @@
 
     function create(type, value, owerEmail, owerName){
       var d = $q.defer(),
+        ower,
         postData = {type: type, value: value, owerEmail: owerEmail, owerName: owerName},
         prom = $http.post(dashboardUrl, postData);
 
@@ -117,6 +118,17 @@
         addSubscriptionNotification.forEach(function(callback){
           callback(newTransaction);
         });
+
+        ower = DashboardService.getByEmail(owerEmail);
+        if (!ower){
+          ower = new User({
+            id: newTransaction.owerId,
+            email: owerEmail,
+            name:owerName
+          });
+
+          DashboardService.addToCache(ower);
+        }
 
         d.resolve(newTransaction);
       });
@@ -162,7 +174,7 @@
 
   }
 
-  TransactionService.$inject = ['$http', '$q', 'configs'];
+  TransactionService.$inject = ['$http', '$q', 'configs', 'DashboardService', 'User'];
 
   angular.module('youomi.dashboard').service('TransactionService', TransactionService);
 

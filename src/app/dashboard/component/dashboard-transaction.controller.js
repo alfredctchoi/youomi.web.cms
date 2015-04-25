@@ -32,7 +32,7 @@
         return;
       }
 
-      if (email.length < 4) {
+      if (email.length < 2) {
         vm.emailMatches = [];
         return;
       }
@@ -63,8 +63,7 @@
       TransactionService
         .create(transaction.type, transaction.value, transaction.owerEmail, transaction.owerName)
         .then(function () {
-          init();
-          vm.transactionForm.$setPristine();
+          reset();
         }, function (error) {
           console.log(error);
         });
