@@ -71,12 +71,10 @@
 
         function attachListeners() {
           element.on('keydown', keyListenerEvent);
-          element.on('blur', removeSearch);
         }
 
         function detachListeners() {
           element.off('keydown', keyListenerEvent);
-          element.off('blur', removeSearch);
         }
 
         function selectItem(key) {
