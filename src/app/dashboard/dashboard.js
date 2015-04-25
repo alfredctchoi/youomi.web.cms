@@ -5,11 +5,20 @@
 (function () {
     'use strict';
 
+  function preloadForDashboard(DashboardService){
+    return DashboardService.setOwers();
+  }
+
+  preloadForDashboard.$inject = ['DashboardService'];
+
   function configs($stateProvider) {
     $stateProvider
       .state('dashboard',{
         url:'/dashboard',
         abstract: true,
+        resolve: {
+          preload: preloadForDashboard
+        },
         templateUrl: 'app/dashboard/views/main.html'
       })
       .state('dashboard.home', {

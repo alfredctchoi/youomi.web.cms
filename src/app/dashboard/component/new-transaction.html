@@ -1,5 +1,5 @@
 <div ng-controller="DashboardTransactionCtrl as dashTransaction">
-  <form ng-submit="dashTransaction.create(dashTransaction.newTrans)" novalidate>
+  <form name="dashTransaction.transactionForm" ng-submit="dashTransaction.create(dashTransaction.newTrans)" novalidate autocomplete="off">
     <div class="form-group hide">
       <label>Type</label>
       <select class="form-control input-sm" name="type" ng-model="dashTransaction.newTrans.type"
@@ -7,23 +7,37 @@
       </select>
     </div>
 
-    <div class="form-group">
+    <div class="form-group" ng-class="{'has-error': dashTransaction.transactionForm.email.$invalid && !dashTransaction.transactionForm.email.$pristine}">
       <label>Ower Email</label>
-      <input type="text" class="form-control input-sm" ng-model="dashTransaction.newTrans.owerEmail" required/>
+      <input type="text" class="form-control input-sm" name="email"
+             ng-model="dashTransaction.newTrans.owerEmail"
+             ng-change="dashTransaction.searchEmail(dashTransaction.newTrans.owerEmail)" required
+             data-yom-hinter=""
+             data-yom-hinter-callback="dashTransaction.setOwer(key)"
+             data-yom-hinter-matches="dashTransaction.emailMatches"/>
+      <small class="help-block" ng-show="dashTransaction.transactionForm.email.$invalid && !dashTransaction.transactionForm.email.$pristine">
+        Email is required.
+      </small>
     </div>
 
-    <div class="form-group">
+    <div class="form-group" ng-class="{'has-error': dashTransaction.transactionForm.name.$invalid && !dashTransaction.transactionForm.name.$pristine}">
       <label>Ower Name</label>
-      <input type="text" class="form-control input-sm" ng-model="dashTransaction.newTrans.owerName" required/>
+      <input name="name" type="text" class="form-control input-sm" ng-model="dashTransaction.newTrans.owerName" required/>
+      <small class="help-block" ng-show="dashTransaction.transactionForm.name.$invalid && !dashTransaction.transactionForm.name.$pristine">
+        Name of Ower is required.
+      </small>
     </div>
 
-    <div class="form-group">
+    <div class="form-group" ng-class="{'has-error': dashTransaction.transactionForm.item.$invalid && !dashTransaction.transactionForm.item.$pristine}">
       <label>Item</label>
-      <input type="text" class="form-control input-sm" ng-model="dashTransaction.newTrans.value" required/>
+      <input name="item" type="text" class="form-control input-sm" ng-model="dashTransaction.newTrans.value" required/>
+      <small class="help-block" ng-show="dashTransaction.transactionForm.item.$invalid && !dashTransaction.transactionForm.item.$pristine">
+        Enter an item to be owed.
+      </small>
     </div>
 
     <div class="form-group text-right">
-      <button type="button" class="btn btn-default" ng-click="dashTransaction.init()">Reset</button>
+      <button type="button" class="btn btn-default" ng-click="dashTransaction.reset()">Reset</button>
       <input type="submit" value="Create" class="btn btn-primary"/>
     </div>
   </form>
