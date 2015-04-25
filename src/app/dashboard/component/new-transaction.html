@@ -1,40 +1,30 @@
 <div ng-controller="DashboardTransactionCtrl as dashTransaction">
-  <button class="btn btn-default" ng-show="!dashTransaction.showCreate" ng-click="dashTransaction.showCreate = true">
-    New Entry
-  </button>
-
-  <div class="row" ng-show="dashTransaction.showCreate">
-    <div class="col-sm-12 col-md-6">
-      <form ng-submit="dashTransaction.create(dashTransaction.newTrans)" novalidate>
-        <div class="form-group hide">
-          <label>Type</label>
-          <select class="form-control input-sm" name="type" ng-model="dashTransaction.newTrans.type"
-                  ng-options="t for t in dashTransaction.transactionType" required>
-          </select>
-        </div>
-
-        <div class="form-group">
-          <label>Ower Email</label>
-          <input type="text" class="form-control input-sm" ng-model="dashTransaction.newTrans.owerEmail" required/>
-        </div>
-
-        <div class="form-group">
-          <label>Ower Name</label>
-          <input type="text" class="form-control input-sm" ng-model="dashTransaction.newTrans.owerName" required/>
-        </div>
-
-        <div class="form-group">
-          <label>Item</label>
-          <input type="text" class="form-control input-sm" ng-model="dashTransaction.newTrans.value" required/>
-        </div>
-
-        <div class="form-group text-right">
-          <button type="button" class="btn btn-default" ng-click="dashTransaction.showCreate = false">Cancel</button>
-          <input type="submit" value="Create" class="btn btn-primary"/>
-        </div>
-      </form>
+  <form ng-submit="dashTransaction.create(dashTransaction.newTrans)" novalidate>
+    <div class="form-group hide">
+      <label>Type</label>
+      <select class="form-control input-sm" name="type" ng-model="dashTransaction.newTrans.type"
+              ng-options="t for t in dashTransaction.transactionType" required>
+      </select>
     </div>
-  </div>
-</div>
 
-<hr/>
+    <div class="form-group">
+      <label>Ower Email</label>
+      <input type="text" class="form-control input-sm" ng-model="dashTransaction.newTrans.owerEmail" required/>
+    </div>
+
+    <div class="form-group">
+      <label>Ower Name</label>
+      <input type="text" class="form-control input-sm" ng-model="dashTransaction.newTrans.owerName" required/>
+    </div>
+
+    <div class="form-group">
+      <label>Item</label>
+      <input type="text" class="form-control input-sm" ng-model="dashTransaction.newTrans.value" required/>
+    </div>
+
+    <div class="form-group text-right">
+      <button type="button" class="btn btn-default" ng-click="dashTransaction.init()">Reset</button>
+      <input type="submit" value="Create" class="btn btn-primary"/>
+    </div>
+  </form>
+</div>

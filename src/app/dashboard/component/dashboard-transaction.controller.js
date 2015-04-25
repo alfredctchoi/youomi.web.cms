@@ -9,18 +9,18 @@
 
     var vm = this;
     vm.create = create;
+    vm.init = init;
+    vm.transactionType = ['Item', 'Currency'];
 
     init();
 
     function init () {
-      vm.transactionType = ['Item', 'Currency'];
       vm.newTrans = {
         type: vm.transactionType[0],
         value: '',
         owerEmail:'',
         owerName:''
       };
-      vm.showCreate = false;
     }
 
     function create(transaction){

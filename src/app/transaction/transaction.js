@@ -3,12 +3,21 @@
  */
 
 (function () {
-    'use strict';
+  'use strict';
+
+  var transactionStatuses = {
+    created: 'Created',
+    active: 'Active',
+    completed: 'Completed',
+    removed: 'Removed',
+    confirmed: 'Confirmed'
+  };
 
   angular.module('youomi.transaction', ['ui.router'])
-    .config(configs);
+    .config(configs)
+    .constant('TransactionStatuses', transactionStatuses);
 
-  function configs($stateProvider){
+  function configs($stateProvider) {
     $stateProvider
       .state('home.transaction', {
         url: 'transaction',

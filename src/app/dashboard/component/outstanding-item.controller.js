@@ -5,7 +5,7 @@
 (function () {
   'use strict';
 
-  function OutstandingItemsCtrl(TransactionService) {
+  function OutstandingItemsCtrl(TransactionService, TransactionStatuses) {
 
     var vm = this,
       transactionCache;
@@ -15,10 +15,7 @@
     vm.reactivate = reactivate;
     vm.updateTransaction = updateTransaction;
     vm.editTransaction = editTransaction;
-    vm.transactionStatus = {
-      returned: 2,
-      active: 1
-    };
+    vm.transactionStatus = TransactionStatuses;
 
     init();
 
@@ -158,7 +155,7 @@
 
   }
 
-  OutstandingItemsCtrl.$inject = ['TransactionService'];
+  OutstandingItemsCtrl.$inject = ['TransactionService', 'TransactionStatuses'];
 
   angular.module('youomi.dashboard').controller('OutstandingItemsCtrl', OutstandingItemsCtrl);
 

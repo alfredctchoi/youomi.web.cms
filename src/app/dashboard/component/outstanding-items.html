@@ -1,6 +1,6 @@
 <div ng-controller="OutstandingItemsCtrl as osi">
 
-  <h4 style="margin-top: 0">Items owed to you</h4>
+  <h2 style="margin-top: 0">Items owed to you</h2>
 
   <div class="help-block" ng-show="osi.owed.length === 0">
     <i>No one currently owes you anything</i>
@@ -28,15 +28,9 @@
 
     <div class="panel panel-default gutter-sm">
       <table class="table table-condensed table-outstanding-items">
-        <tr ng-repeat="transaction in record.transactions"
-            ng-class="{'bg-info': transaction.status === osi.transactionStatus.returned}">
-          <td width="75px">
-          <span class="label label-success" ng-show="transaction.status === osi.transactionStatus.returned">
-            Returned
-          </span>
-          <span class="label label-info" ng-show="transaction.status === osi.transactionStatus.active">
-            Outstanding
-          </span>
+        <tr ng-repeat="transaction in record.transactions">
+          <td style="width: 20px" class="text-center">
+            <div yom-transaction-indicator="" data-status="{{transaction.status}}"></div>
           </td>
           <td>
             <input
@@ -50,16 +44,17 @@
           </td>
           <td class="text-right">
             <a class="action-link" href=""
-               ng-show="transaction.status !== osi.transactionStatus.returned && !transaction.showEdit"
+               ng-show="transaction.status !== osi.transactionStatus.completed && !transaction.showEdit"
                ng-click="osi.editTransaction(transaction)" title="Edit">
               <i class="glyphicon glyphicon-edit"></i>
             </a>
             <a class="action-link" href=""
-               ng-show="transaction.status === osi.transactionStatus.returned"
+               ng-show="transaction.status === osi.transactionStatus.completed"
                ng-click="osi.reactivate(transaction, transaction.id)" title="Reactivate">
               <i class="glyphicon glyphicon-repeat"></i>
             </a>
-            <a class="action-link" href="" ng-click="osi.confirm(record.id, transaction.id)" title="Confirm Returned Item">
+            <a class="action-link" href="" ng-click="osi.confirm(record.id, transaction.id)"
+               title="Confirm Returned Item">
               <i class="glyphicon glyphicon-ok"></i>
             </a>
           </td>
@@ -70,7 +65,7 @@
 
   <hr/>
 
-  <h4 style="margin-top: 0">Items owed by you</h4>
+  <h2 style="margin-top: 0">Items owed by you</h2>
 
   <div class="help-block" ng-show="osi.owe.length === 0">
     <i>You currently do not owe anything</i>
