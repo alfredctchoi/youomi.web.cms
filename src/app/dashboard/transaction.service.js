@@ -12,6 +12,7 @@
 
     this.getOutstandingItems = getOutstandingItems;
     this.create = create;
+    this.remove = remove;
     this.remindUser = remindUser;
     this.subscribeToCreate = subscribeToCreate;
     this.complete = complete;
@@ -19,6 +20,22 @@
     this.returnItem = returnItem;
     this.reactivate = reactivate;
     this.update = update;
+
+    function remove(id){
+      var d = $q.defer(),
+        deleteUrl = dashboardUrl + '/' + id,
+        prom = $http.delete(deleteUrl, null);
+
+      prom.success(function(){
+        d.resolve();
+      });
+
+      prom.error(function(err){
+        d.reject(err);
+      });
+
+      return d.promise;
+    }
 
     function update(id, type, value){
       var d = $q.defer(),

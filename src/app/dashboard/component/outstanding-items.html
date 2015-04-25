@@ -53,6 +53,11 @@
                ng-click="osi.reactivate(transaction, transaction.id)" title="Reactivate">
               <i class="glyphicon glyphicon-repeat"></i>
             </a>
+            <a class="action-link" href=""
+               ng-show="transaction.status !== osi.transactionStatus.completed"
+               ng-click="osi.remove(transaction.id, $index, record)" title="Remove">
+              <i class="glyphicon glyphicon-remove"></i>
+            </a>
             <a class="action-link" href="" ng-click="osi.confirm(record.id, transaction.id)"
                title="Confirm Returned Item">
               <i class="glyphicon glyphicon-ok"></i>

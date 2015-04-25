@@ -13,6 +13,7 @@
     vm.confirm = confirm;
     vm.returnItem = returnItem;
     vm.reactivate = reactivate;
+    vm.remove = remove;
     vm.updateTransaction = updateTransaction;
     vm.editTransaction = editTransaction;
     vm.transactionStatus = TransactionStatuses;
@@ -33,39 +34,61 @@
       TransactionService.subscribeToCreate(update);
     }
 
-    function editTransaction(transaction){
+    function removeOwedRecord(recordId){
+      var i, k;
+      for (i = 0, k = vm.owed.length; i < k; i++){
+        if (vm.owed[i].id === recordId){
+          vm.owed.splice(i, 1);
+          break;
+        }
+      }
+    }
+
+    function remove(transactionId, index, record) {
+      TransactionService.remove(transactionId)
+        .then(function () {
+          record.transactions.splice(index, 1);
+          if (record.transactions.length === 0){
+            removeOwedRecord(record.id);
+          }
+        }, function (error) {
+          console.log(error);
+        });
+    }
+
+    function editTransaction(transaction) {
       transactionCache = angular.copy(transaction);
       transaction.showEdit = !transaction.showEdit;
     }
 
-    function updateTransaction(transaction){
-      if (transactionCache.type === transaction.type && transactionCache.value === transaction.value){
+    function updateTransaction(transaction) {
+      if (transactionCache.type === transaction.type && transactionCache.value === transaction.value) {
         transaction.showEdit = false;
         return;
       }
 
       TransactionService.update(transaction.id, transaction.type, transaction.value)
-        .then(function(response){
+        .then(function (response) {
 
-        }, function(error){
+        }, function (error) {
           console.log(error);
         })
-        .finally(function(){
+        .finally(function () {
           transaction.showEdit = false;
         });
     }
 
-    function reactivate(transaction, transactionId){
+    function reactivate(transaction, transactionId) {
       TransactionService
         .reactivate(transactionId)
-        .then(function(){
+        .then(function () {
           transaction.status = vm.transactionStatus.active;
-        },function(error){
+        }, function (error) {
           console.log(error);
         })
     }
 
-    function returnItem(recordId, transactionGuid){
+    function returnItem(recordId, transactionGuid) {
       TransactionService
         .returnItem(transactionGuid)
         .then(function () {
@@ -73,16 +96,16 @@
 
           for (i = 0; record = vm.owe[i]; i++) {
             if (recordId !== record.id) continue;
-            for (k = 0; trans = record.transactions[k]; k++){
+            for (k = 0; trans = record.transactions[k]; k++) {
               if (trans.identifier !== transactionGuid) continue;
               record.transactions.splice(k, 1);
               recordBreak = true;
               break;
             }
 
-            if (recordBreak){
-              if (record.transactions.length === 0){
-                vm.owe.splice(i,1);
+            if (recordBreak) {
+              if (record.transactions.length === 0) {
+                vm.owe.splice(i, 1);
               }
 
               break;
@@ -120,9 +143,9 @@
         .remindUser(userId)
         .then(function (updatedRecord) {
           record.lastReminded = updatedRecord.lastReminded;
-      }, function (error) {
+        }, function (error) {
 
-      });
+        });
     }
 
     function confirm(recordId, transactionId) {
@@ -133,16 +156,16 @@
 
           for (i = 0; record = vm.owed[i]; i++) {
             if (recordId !== record.id) continue;
-            for (k = 0; trans = record.transactions[k]; k++){
+            for (k = 0; trans = record.transactions[k]; k++) {
               if (trans.id !== transactionId) continue;
               record.transactions.splice(k, 1);
               recordBreak = true;
               break;
             }
 
-            if (recordBreak){
-              if (record.transactions.length === 0){
-                vm.owed.splice(i,1);
+            if (recordBreak) {
+              if (record.transactions.length === 0) {
+                vm.owed.splice(i, 1);
               }
 
               break;
