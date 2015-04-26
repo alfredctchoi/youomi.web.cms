@@ -1,6 +1,9 @@
-(function () {
+/**
+ * Created by Alfred on 2015-04-25.
+ */
 
-  'use strict';
+(function () {
+    'use strict';
 
   function MainCtrl(SessionService) {
 
@@ -11,5 +14,8 @@
 
   MainCtrl.$inject = ['SessionService'];
 
+
   angular.module('youomi').controller('MainCtrl', MainCtrl);
+
+
 })();

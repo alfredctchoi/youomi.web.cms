@@ -26,21 +26,21 @@
     }
   }
 
-  function config($stateProvider, $urlRouterProvider, $httpProvider) {
+  function config($stateProvider, $urlRouterProvider, $httpProvider, DateHelperProvider) {
     $httpProvider.interceptors.push('HttpInterceptor');
     $httpProvider.defaults.transformResponse.push(function (responseData) {
-      convertDateStringsToDates(responseData);
+      DateHelperProvider.convertDateStringsToDates(responseData);
       return responseData;
     });
     $stateProvider
       .state('home', {
         url: '/',
         abstract: true,
-        templateUrl: 'app/main/views/main.html'
+        templateUrl: 'app/main/views/index.html'
       })
       .state('home.homepage', {
         url: '',
-        templateUrl: 'app/main/views/homepage.html'
+        templateUrl: 'app/main/views/home.html'
       })
       .state('home.unauthorized', {
         url: 'unauthorized',
@@ -50,7 +50,7 @@
     $urlRouterProvider.otherwise('/');
   }
 
-  config.$inject = ['$stateProvider', '$urlRouterProvider', '$httpProvider'];
+  config.$inject = ['$stateProvider', '$urlRouterProvider', '$httpProvider', 'DateHelperProvider'];
 
   function runFn($rootScope, SessionService, $state) {
     $rootScope.$on('$stateChangeStart', function (event, to) {
