@@ -47,6 +47,7 @@
                 });
               }
               break;
+            case 9:
             case 13: //enter
               e.preventDefault();
               scope.$apply(function(){

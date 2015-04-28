@@ -5,7 +5,7 @@
 (function () {
   'use strict';
 
-  function DashboardTransactionCtrl(TransactionService, DashboardService) {
+  function DashboardTransactionCtrl(TransactionService, DashboardService, $state) {
 
     var vm = this;
     vm.create = create;
@@ -16,7 +16,6 @@
 
     vm.transactionForm = null;
     vm.transactionType = ['Item', 'Currency'];
-
 
     init();
 
@@ -64,13 +63,16 @@
         .create(transaction.type, transaction.value, transaction.owerEmail, transaction.owerName)
         .then(function () {
           reset();
+          if ($state.current.name === 'dashboard.new-transaction'){
+            $state.go('dashboard.home');
+          }
         }, function (error) {
           console.log(error);
         });
     }
   }
 
-  DashboardTransactionCtrl.$inject = ['TransactionService', 'DashboardService'];
+  DashboardTransactionCtrl.$inject = ['TransactionService', 'DashboardService', '$state'];
 
   angular.module('youomi.dashboard').controller('DashboardTransactionCtrl', DashboardTransactionCtrl);
 

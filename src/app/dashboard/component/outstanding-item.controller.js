@@ -31,7 +31,7 @@
           vm.owe = data.owe;
         });
 
-      TransactionService.subscribeToCreate(update);
+      //TransactionService.subscribeToCreate(update);
     }
 
     function removeOwedRecord(recordId){
