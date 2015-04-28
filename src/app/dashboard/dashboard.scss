@@ -18,3 +18,9 @@
     background: #ddd;
   }
 }
+
+@media (max-width: $screen-sm-max){
+  .dashboard-content{
+    margin-top: 60px
+  }
+}
