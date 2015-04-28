@@ -1,5 +1,12 @@
 @import "variables";
 
+// fix for zoom
+@media (max-width: $screen-md-min) {
+  input {
+    font-size: 16px !important;
+  }
+}
+
 .browsehappy {
   margin: 0.2em 0;
   background: #ccc;
