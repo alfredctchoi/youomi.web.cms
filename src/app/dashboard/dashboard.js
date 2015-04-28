@@ -3,9 +3,9 @@
  */
 
 (function () {
-    'use strict';
+  'use strict';
 
-  function preloadForDashboard(DashboardService){
+  function preloadForDashboard(DashboardService) {
     return DashboardService.setOwers();
   }
 
@@ -13,8 +13,8 @@
 
   function configs($stateProvider) {
     $stateProvider
-      .state('dashboard',{
-        url:'/dashboard',
+      .state('dashboard', {
+        url: '/dashboard',
         abstract: true,
         resolve: {
           preload: preloadForDashboard
@@ -22,8 +22,12 @@
         templateUrl: 'app/dashboard/views/main.html'
       })
       .state('dashboard.home', {
-        url:'/home',
+        url: '/home',
         templateUrl: 'app/dashboard/views/home.html'
+      })
+      .state('dashboard.new-transaction', {
+        url: '/new',
+        templateUrl: 'app/dashboard/component/new-transaction.html'
       })
   }
 

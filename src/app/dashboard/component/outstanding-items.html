@@ -8,7 +8,7 @@
 
   <div class="gutter owed-item" ng-repeat="record in osi.owed">
     <div class="row">
-      <div class="col-sm-8">
+      <div class="col-xs-8">
         <h4>
           {{record.name}}
           <small>({{record.transactions.length}} items)</small>
@@ -20,9 +20,9 @@
         </div>
       </div>
       <div class="col-sm-4 text-right">
-        <button ng-click="osi.remind(record, record.owerId)" type="button" class="btn btn-primary btn-sm">
-          Remind
-        </button>
+        <a href="" class="remind-button" ng-click="osi.remind(record, record.owerId)">
+          <i class="ion-email"></i>
+        </a>
       </div>
     </div>
 
@@ -46,7 +46,7 @@
             <a class="action-link" href=""
                ng-show="transaction.status !== osi.transactionStatus.completed && !transaction.showEdit"
                ng-click="osi.editTransaction(transaction)" title="Edit">
-              <i class="glyphicon glyphicon-edit"></i>
+              <i class="ion-edit"></i>
             </a>
             <a class="action-link" href=""
                ng-show="transaction.status === osi.transactionStatus.completed"
@@ -56,11 +56,11 @@
             <a class="action-link" href=""
                ng-show="transaction.status !== osi.transactionStatus.completed"
                ng-click="osi.remove(transaction.id, $index, record)" title="Remove">
-              <i class="glyphicon glyphicon-remove"></i>
+              <i class="ion-trash-b"></i>
             </a>
             <a class="action-link" href="" ng-click="osi.confirm(record.id, transaction.id)"
                title="Confirm Returned Item">
-              <i class="glyphicon glyphicon-ok"></i>
+              <i class="ion-checkmark"></i>
             </a>
           </td>
         </tr>
@@ -87,23 +87,19 @@
     </div>
 
     <div class="panel panel-default gutter-sm">
-      <table class="table table-condensed">
+      <table class="table table-condensed table-outstanding-items">
         <tr ng-repeat="transaction in record.transactions">
-          <td width="75px" style="vertical-align: middle">
-          <span class="label label-success" ng-show="transaction.status === osi.transactionStatus.returned">
-            Returned
-          </span>
-          <span class="label label-info" ng-show="transaction.status === osi.transactionStatus.active">
-            Outstanding
-          </span>
+          <td width="20px" style="vertical-align: middle">
+            <div yom-transaction-indicator="" data-status="{{transaction.status}}"></div>
           </td>
           <td style="vertical-align: middle">
             <span>{{transaction.value}}</span>
           </td>
           <td class="text-right">
-            <button type="button" ng-click="osi.confirm(record.id, transaction.id)" class="btn btn-sm btn-default">
-              Returned
-            </button>
+            <a class="action-link" href="" ng-click="osi.returnItem(record.id, transaction.identifier)"
+               title="Confirm Returned Item">
+              <i class="ion-checkmark"></i>
+            </a>
           </td>
         </tr>
       </table>

@@ -1,3 +1,5 @@
+@import "variables";
+
 .browsehappy {
   margin: 0.2em 0;
   background: #ccc;
@@ -44,6 +46,14 @@
 
 .pointer {
   cursor: pointer;
+}
+
+@media (max-width: $screen-sm-min) {
+
+  .yom-header{
+    text-align: center;
+  }
+
 }
 
 

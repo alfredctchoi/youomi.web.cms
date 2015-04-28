@@ -1,0 +1,29 @@
+<div ng-controller="DashboardNavCtrl as dashboardNav">
+  <nav class="navbar navbar-fixed-top navbar-inverse">
+    <a class="navbar-brand" ui-sref="dashboard.home">Youomi</a>
+
+
+    <div class="mobile-nav-menu">
+      <ul class="list-inline pull-right">
+        <li>
+          <a ui-sref="dashboard.new-transaction">
+            <i class="ion-plus"></i>
+          </a></li>
+        <li>
+          <a ui-sref="dashboard.home">
+            <i class="ion-home"></i>
+          </a></li>
+        <li>
+          <a href="#">
+            <i class="ion-gear-b"></i>
+          </a>
+        </li>
+        <li>
+          <a href="" ng-click="dashboardNav.logout()">
+            <i class="ion-power"></i>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+</div>

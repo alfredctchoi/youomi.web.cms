@@ -1,0 +1,18 @@
+<div class="page-header" ng-controller="DashboardNavCtrl as dashboardNav">
+  <nav>
+    <ul class="nav nav-pills pull-right">
+      <li ui-sref-active="active">
+        <a ui-sref="dashboard.home">Dashboard</a>
+      </li>
+      <li ui-sref-active="active">
+        <a ui-sref="dashboard.account">
+          Settings
+        </a>
+      </li>
+      <li>
+        <a href="" ng-click="dashboardNav.logout()">Logout</a>
+      </li>
+    </ul>
+  </nav>
+  <span class="nav-heading pointer">Youomi</span>
+</div>

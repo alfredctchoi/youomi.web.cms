@@ -1,18 +1,2 @@
-<div class="page-header" ng-controller="DashboardNavCtrl as dashboardNav">
-  <nav>
-    <ul class="nav nav-pills pull-right">
-      <li ui-sref-active="active">
-        <a ui-sref="dashboard.home">Dashboard</a>
-      </li>
-      <li ui-sref-active="active">
-        <a ui-sref="dashboard.account">
-          Settings
-        </a>
-      </li>
-      <li>
-        <a href="" ng-click="dashboardNav.logout()">Logout</a>
-      </li>
-    </ul>
-  </nav>
-  <span class="nav-heading pointer">Youomi</span>
-</div>
+<div class="visible-sm-block visible-xs-block" ng-include="'app/dashboard/component/navbar-mobile.html'"></div>
+<div class="visible-md-block visible-lg-block" ng-include="'app/dashboard/component/navbar-large.html'"></div>

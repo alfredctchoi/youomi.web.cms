@@ -5,10 +5,11 @@
 (function () {
     'use strict';
 
-  function TransactionService($http, $q, configs, DashboardService, User) {
+  function TransactionService($http, $q, configs, DashboardService, User, Transaction) {
 
     var dashboardUrl = configs.baseUrl + 'transaction',
-      addSubscriptionNotification = [];
+      addSubscriptionNotification = [],
+      listCache = null;
 
     this.getOutstandingItems = getOutstandingItems;
     this.create = create;
@@ -112,15 +113,21 @@
     function getOutstandingItems (){
       var listUrl  = dashboardUrl + '/list',
         d = $q.defer(),
+        prom;
+
+      if (listCache){
+        d.resolve(listCache);
+      } else {
         prom = $http.get(listUrl);
+        prom.success(function (items) {
+          listCache = items;
+          d.resolve(listCache);
+        });
 
-      prom.success(function(items) {
-        d.resolve(items);
-      });
-
-      prom.error(function(error){
-        d.reject(error)
-      });
+        prom.error(function (error) {
+          d.reject(error)
+        });
+      }
 
       return d.promise;
     }
@@ -146,6 +153,13 @@
 
           DashboardService.addToCache(ower);
         }
+
+        // need to add transaction to cache.
+
+        //console.log(newTransaction.transactions);
+        //trans = new Transaction(newTransaction.transactions[0]);
+        //console.log(trans);
+        //DashboardService.addToTransactionCache(trans);
 
         d.resolve(newTransaction);
       });
@@ -191,7 +205,7 @@
 
   }
 
-  TransactionService.$inject = ['$http', '$q', 'configs', 'DashboardService', 'User'];
+  TransactionService.$inject = ['$http', '$q', 'configs', 'DashboardService', 'User', 'Transaction'];
 
   angular.module('youomi.dashboard').service('TransactionService', TransactionService);
 
