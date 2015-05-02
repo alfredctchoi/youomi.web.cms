@@ -146,11 +146,20 @@
         //  callback(newTransaction);
         //});
 
+        var added = false;
+        listCache = listCache || {};
+        listCache.owed = listCache.owed || [];
+
         if (listCache && listCache.owed) {
           for (i = 0; k = listCache.owed[i]; i++) {
             if (k.id !== newTransaction.id) continue;
-            k.transactions.push(newTransaction.transactions[0]);
+            k.transactions.push(angular.copy(newTransaction.transactions[0]));
+            added = true;
             break;
+          }
+
+          if (!added){
+            listCache.owed.push(angular.copy(newTransaction));
           }
         }
 
