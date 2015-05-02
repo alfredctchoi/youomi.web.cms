@@ -35,7 +35,7 @@
     }
 
     function hasSession () {
-      return getCookie() !== undefined;
+      return getCookie() !== null;
     }
 
     function getCookie(){

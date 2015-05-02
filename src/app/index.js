@@ -58,6 +58,11 @@
         event.preventDefault();
         $state.go('home.unauthorized');
       }
+
+      if (to.name === 'home.homepage' && SessionService.hasSession()){
+        event.preventDefault();
+        $state.go('dashboard.home');
+      }
     });
   }
 
