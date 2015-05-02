@@ -5,17 +5,23 @@
 (function () {
     'use strict';
 
-  function SessionService(configs, $cookies) {
+  function SessionService(configs) {
 
     var session = null;
 
     this.getSession = getSession;
     this.hasSession = hasSession;
     this.destroy = destroy;
+    this.create = create;
+
+    function create(newSession){
+      session = newSession;
+      localStorage.setItem(configs.sessionCookieKey, angular.toJson(session));
+    }
 
     function destroy(){
       session = null;
-      delete $cookies[configs.sessionCookieKey];
+      localStorage.removeItem(configs.sessionCookieKey);
     }
 
     function getSession(){
@@ -33,11 +39,11 @@
     }
 
     function getCookie(){
-      return $cookies[configs.sessionCookieKey];
+      return localStorage.getItem(configs.sessionCookieKey);
     }
   }
 
-  SessionService.$inject = ['configs','$cookies'];
+  SessionService.$inject = ['configs'];
 
   angular.module('youomi.authentication').service('SessionService', SessionService);
 
