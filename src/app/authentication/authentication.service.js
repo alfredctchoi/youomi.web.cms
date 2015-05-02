@@ -2,7 +2,7 @@
 
   'use strict';
 
-  function AuthenticationService($http, $q, configs, $cookies, SessionService) {
+  function AuthenticationService($http, $q, configs, $cookies, SessionService, TransactionCacheService) {
 
     //private vars
     var authUrl = configs.baseUrl + 'authenticate',
@@ -77,6 +77,7 @@
 
       promise.success(function () {
         SessionService.destroy();
+        TransactionCacheService.clear();
         d.resolve();
       });
       promise.error(function (err) {
@@ -88,7 +89,7 @@
 
   }
 
-  AuthenticationService.$inject = ['$http', '$q', 'configs', '$cookies', 'SessionService'];
+  AuthenticationService.$inject = ['$http', '$q', 'configs', '$cookies', 'SessionService', 'TransactionCacheService'];
 
   angular.module('youomi.authentication').service('AuthenticationService', AuthenticationService);
 })();

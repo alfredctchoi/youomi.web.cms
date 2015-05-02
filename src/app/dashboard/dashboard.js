@@ -33,7 +33,7 @@
 
   configs.$inject = ['$stateProvider'];
 
-  angular.module('youomi.dashboard', ['ui.router'])
+  angular.module('youomi.dashboard', ['ui.router', 'youomi.transaction'])
     .config(configs);
 
 })();
