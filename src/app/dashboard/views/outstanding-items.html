@@ -58,7 +58,7 @@
             </a>
             <a class="action-link" href=""
                ng-show="transaction.status !== osi.transactionStatus.completed"
-               ng-click="osi.remove(transaction.id, $index, record)" title="Remove">
+               ng-click="osi.remove(transaction.id, record)" title="Remove">
               <i class="ion-trash-b"></i>
             </a>
             <a class="action-link" href="" ng-click="osi.confirm(record.id, transaction.id)"

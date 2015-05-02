@@ -5,29 +5,27 @@
 (function () {
   'use strict';
 
-  function TransactionService($http, $q, configs, DashboardService, User) {
+  function TransactionService($http, $q, configs, DashboardService, User, TransactionCacheService) {
 
-    var dashboardUrl = configs.baseUrl + 'transaction',
-      addSubscriptionNotification = [],
-      listCache = null;
+    var dashboardUrl = configs.baseUrl + 'transaction';
 
     this.getOutstandingItems = getOutstandingItems;
     this.create = create;
     this.remove = remove;
+    this.update = update;
     this.remindUser = remindUser;
-    this.subscribeToCreate = subscribeToCreate;
     this.complete = complete;
     this.confirm = confirm;
     this.returnItem = returnItem;
     this.reactivate = reactivate;
-    this.update = update;
 
-    function remove(id) {
+    function remove(id, recordId) {
       var d = $q.defer(),
         deleteUrl = dashboardUrl + '/' + id,
         prom = $http.delete(deleteUrl, null);
 
       prom.success(function () {
+        TransactionCacheService.removeOwed(id, recordId);
         d.resolve();
       });
 
@@ -74,12 +72,13 @@
       return d.promise;
     }
 
-    function returnItem(guid) {
+    function returnItem(guid, recordId) {
       var d = $q.defer(),
         completeUrl = dashboardUrl + '/' + guid + '/complete',
         prom = $http.put(completeUrl, null);
 
       prom.success(function (data) {
+        TransactionCacheService.removeOweByGuid(guid, recordId);
         d.resolve(data);
       });
 
@@ -90,13 +89,14 @@
       return d.promise;
     }
 
-    function confirm(transactionId) {
+    function confirm(transactionId, recordId) {
       var d = $q.defer(),
         confirmUrl = dashboardUrl + '/' + transactionId + '/confirm',
         prom = $http.put(confirmUrl, null);
 
-      prom.success(function (data) {
-        d.resolve(data);
+      prom.success(function () {
+        TransactionCacheService.removeOwed(transactionId, recordId);
+        d.resolve();
       });
 
       prom.error(function (err) {
@@ -104,10 +104,6 @@
       });
 
       return d.promise;
-    }
-
-    function subscribeToCreate(callback) {
-      addSubscriptionNotification.push(callback);
     }
 
     function getOutstandingItems() {
@@ -115,13 +111,13 @@
         d = $q.defer(),
         prom;
 
-      if (listCache) {
-        d.resolve(listCache);
+      if (TransactionCacheService.hasCache()) {
+        d.resolve(TransactionCacheService.getItems());
       } else {
         prom = $http.get(listUrl);
         prom.success(function (items) {
-          listCache = angular.copy(items);
-          d.resolve(listCache);
+          TransactionCacheService.init(items.owed, items.owe);
+          d.resolve(TransactionCacheService.getItems());
         });
 
         prom.error(function (error) {
@@ -135,33 +131,11 @@
     function create(type, value, owerEmail, owerName) {
       var d = $q.defer(),
         ower,
-        i,
-        k,
         postData = {type: type, value: value, owerEmail: owerEmail, owerName: owerName},
         prom = $http.post(dashboardUrl, postData);
 
       prom.success(function (newTransaction) {
-
-        //addSubscriptionNotification.forEach(function (callback) {
-        //  callback(newTransaction);
-        //});
-
-        var added = false;
-        listCache = listCache || {};
-        listCache.owed = listCache.owed || [];
-
-        if (listCache && listCache.owed) {
-          for (i = 0; k = listCache.owed[i]; i++) {
-            if (k.id !== newTransaction.id) continue;
-            k.transactions.push(angular.copy(newTransaction.transactions[0]));
-            added = true;
-            break;
-          }
-
-          if (!added){
-            listCache.owed.push(angular.copy(newTransaction));
-          }
-        }
+        TransactionCacheService.addOwed(newTransaction);
 
         ower = DashboardService.getByEmail(owerEmail);
         if (!ower) {
@@ -173,7 +147,7 @@
 
           DashboardService.addToCache(ower);
         }
-        d.resolve(newTransaction);
+        d.resolve();
       });
 
       prom.error(function (error) {
@@ -217,8 +191,8 @@
 
   }
 
-  TransactionService.$inject = ['$http', '$q', 'configs', 'DashboardService', 'User'];
+  TransactionService.$inject = ['$http', '$q', 'configs', 'DashboardService', 'User', 'TransactionCacheService'];
 
-  angular.module('youomi.dashboard').service('TransactionService', TransactionService);
+  angular.module('youomi.transaction').service('TransactionService', TransactionService);
 
 })();

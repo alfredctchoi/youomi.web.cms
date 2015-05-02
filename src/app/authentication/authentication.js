@@ -38,7 +38,8 @@
     .module('youomi.authentication', [
       'ui.router',
       'ngCookies',
-      'youomi.user'
+      'youomi.user',
+      'youomi.transaction'
     ])
     .config(configs);
 })();

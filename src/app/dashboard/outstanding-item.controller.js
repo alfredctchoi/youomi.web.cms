@@ -30,27 +30,11 @@
           vm.owed = data.owed;
           vm.owe = data.owe;
         });
-
-      //TransactionService.subscribeToCreate(update);
     }
 
-    function removeOwedRecord(recordId){
-      var i, k;
-      for (i = 0, k = vm.owed.length; i < k; i++){
-        if (vm.owed[i].id === recordId){
-          vm.owed.splice(i, 1);
-          break;
-        }
-      }
-    }
-
-    function remove(transactionId, index, record) {
-      TransactionService.remove(transactionId)
+    function remove(transactionId, record) {
+      TransactionService.remove(transactionId, record.id)
         .then(function () {
-          record.transactions.splice(index, 1);
-          if (record.transactions.length === 0){
-            removeOwedRecord(record.id);
-          }
         }, function (error) {
           console.log(error);
         });
@@ -68,11 +52,7 @@
       }
 
       TransactionService.update(transaction.id, transaction.type, transaction.value)
-        .then(function (response) {
-
-        }, function (error) {
-          console.log(error);
-        })
+        .then(function () {}, function (error) {console.log(error);})
         .finally(function () {
           transaction.showEdit = false;
         });
@@ -90,52 +70,8 @@
 
     function returnItem(recordId, transactionGuid) {
       TransactionService
-        .returnItem(transactionGuid)
-        .then(function () {
-          var i, k, record, trans, recordBreak;
-
-          for (i = 0; record = vm.owe[i]; i++) {
-            if (recordId !== record.id) continue;
-            for (k = 0; trans = record.transactions[k]; k++) {
-              if (trans.identifier !== transactionGuid) continue;
-              record.transactions.splice(k, 1);
-              recordBreak = true;
-              break;
-            }
-
-            if (recordBreak) {
-              if (record.transactions.length === 0) {
-                vm.owe.splice(i, 1);
-              }
-
-              break;
-            }
-          }
-        }, function (err) {
-          console.log(err);
-        })
-    }
-
-    /**
-     * Callback that is called when a new record
-     * has been added
-     * @param item
-     */
-    function update(item) {
-      var i, record;
-      for (i = 0; record = vm.owed[i]; i++) {
-        /** @namespace item.owerId */
-        if (record.owerId === item.owerId) {
-          item.transactions.forEach(function (trans) {
-            record.transactions.push(trans);
-          });
-          return;
-        }
-      }
-
-      // if not in records list, add it with the user
-      record = item;
-      vm.owed.push(record);
+        .returnItem(transactionGuid, recordId)
+        .then(function () {}, function (err) {console.log(err);})
     }
 
     function remind(record, userId) {
@@ -151,29 +87,8 @@
 
     function confirm(recordId, transactionId) {
       TransactionService
-        .confirm(transactionId)
-        .then(function () {
-          var i, k, record, trans, recordBreak;
-
-          for (i = 0; record = vm.owed[i]; i++) {
-            if (recordId !== record.id) continue;
-            for (k = 0; trans = record.transactions[k]; k++) {
-              if (trans.id !== transactionId) continue;
-              record.transactions.splice(k, 1);
-              recordBreak = true;
-              break;
-            }
-
-            if (recordBreak) {
-              if (record.transactions.length === 0) {
-                vm.owed.splice(i, 1);
-              }
-
-              break;
-            }
-          }
-        }, function (err) {
-          console.log(err);
+        .confirm(transactionId, recordId)
+        .then(function () {}, function (err) {console.log(err);
         });
     }
 
