@@ -1,12 +1,11 @@
 <div ng-controller="OutstandingItemsCtrl as osi">
+  <h2 style="margin-top: 0">Items owed to you</h2>
 
-  <h1 style="margin-top: 0">Items owed to you</h1>
-
-  <div class="help-block" ng-show="osi.owed.length === 0">
+  <div class="help-block" ng-show="osi.transactions.owed.length === 0">
     <i>No one currently owes you anything</i>
   </div>
 
-  <div class="gutter owed-item" ng-repeat="record in osi.owed">
+  <div class="gutter owed-item" ng-repeat="record in osi.transactions.owed">
 
     <div class="panel panel-default gutter-sm">
       <div class="panel-body">
@@ -73,13 +72,13 @@
 
   <hr/>
 
-  <h2 style="margin-top: 0">Items owed by you</h2>
+  <h2>Items owed by you</h2>
 
-  <div class="help-block" ng-show="osi.owe.length === 0">
+  <div class="help-block" ng-show="osi.transactions.owe.length === 0">
     <i>You currently do not owe anything</i>
   </div>
 
-  <div class="gutter owed-item" ng-repeat="record in osi.owe">
+  <div class="gutter owed-item" ng-repeat="record in osi.transactions.owe">
     <div class="panel panel-default gutter-sm">
       <div class="panel-body">
         <div class="row">

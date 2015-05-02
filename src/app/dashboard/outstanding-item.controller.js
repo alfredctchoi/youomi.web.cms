@@ -27,8 +27,7 @@
       TransactionService
         .getOutstandingItems()
         .then(function (data) {
-          vm.owed = data.owed;
-          vm.owe = data.owe;
+          vm.transactions = data;
         });
     }
 

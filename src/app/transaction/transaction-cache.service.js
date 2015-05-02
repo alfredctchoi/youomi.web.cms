@@ -5,7 +5,7 @@
 (function () {
   'use strict';
 
-  function TransactionCacheService() {
+  function TransactionCacheService(TransactionStatuses) {
 
     var cache = null;
 
@@ -21,10 +21,10 @@
       var i, k, transaction, record;
       for (i = 0; record = cache.owe[i]; i++) {
         if (record.id !== recordId) continue;
-        for (k = 0; transaction = record.transactions[k]; k++){
+        for (k = 0; transaction = record.transactions[k]; k++) {
           if (transaction.identifier !== guid) continue;
           record.transactions.splice(k, 1);
-          if (record.transactions.length === 0){
+          if (record.transactions.length === 0) {
             cache.owe.splice(i, 1);
           }
           break;
@@ -36,10 +36,10 @@
       var i, k, transaction, record;
       for (i = 0; record = cache.owed[i]; i++) {
         if (record.id !== recordId) continue;
-        for (k = 0; transaction = record.transactions[k]; k++){
+        for (k = 0; transaction = record.transactions[k]; k++) {
           if (transaction.id !== transactionId) continue;
           record.transactions.splice(k, 1);
-          if (record.transactions.length === 0){
+          if (record.transactions.length === 0) {
             cache.owed.splice(i, 1);
           }
           break;
@@ -90,10 +90,9 @@
         owe: angular.isArray(transactionOwe) ? angular.copy(transactionOwe) : []
       };
     }
-
   }
 
-  TransactionCacheService.$inject = [];
+  TransactionCacheService.$inject = ['TransactionStatuses'];
 
 
   angular.module('youomi.transaction').service('TransactionCacheService', TransactionCacheService);
