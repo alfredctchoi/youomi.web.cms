@@ -62,6 +62,7 @@
         prom = $http.put(reactivateUrl, null);
 
       prom.success(function (data) {
+        TransactionCacheService.reactivate(transactionId);
         d.resolve(data);
       });
 
@@ -89,13 +90,13 @@
       return d.promise;
     }
 
-    function confirm(transactionId, recordId) {
+    function confirm(transactionId) {
       var d = $q.defer(),
         confirmUrl = dashboardUrl + '/' + transactionId + '/confirm',
         prom = $http.put(confirmUrl, null);
 
       prom.success(function () {
-        TransactionCacheService.removeOwed(transactionId, recordId);
+        TransactionCacheService.removeFromActionItems(transactionId);
         d.resolve();
       });
 
@@ -116,7 +117,7 @@
       } else {
         prom = $http.get(listUrl);
         prom.success(function (items) {
-          TransactionCacheService.init(items.owed, items.owe);
+          TransactionCacheService.init(items.owed, items.owe, items.actionItems);
           d.resolve(TransactionCacheService.getItems());
         });
 

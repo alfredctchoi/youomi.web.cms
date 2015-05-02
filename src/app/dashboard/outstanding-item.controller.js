@@ -57,14 +57,10 @@
         });
     }
 
-    function reactivate(transaction, transactionId) {
+    function reactivate(transactionId) {
       TransactionService
         .reactivate(transactionId)
-        .then(function () {
-          transaction.status = vm.transactionStatus.active;
-        }, function (error) {
-          console.log(error);
-        })
+        .then(function () {}, function (error) {console.log(error);})
     }
 
     function returnItem(recordId, transactionGuid) {
@@ -84,9 +80,9 @@
         });
     }
 
-    function confirm(recordId, transactionId) {
+    function confirm(transactionId) {
       TransactionService
-        .confirm(transactionId, recordId)
+        .confirm(transactionId)
         .then(function () {}, function (err) {console.log(err);
         });
     }

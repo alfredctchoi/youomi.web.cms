@@ -1,4 +1,44 @@
 <div ng-controller="OutstandingItemsCtrl as osi">
+
+  <div ng-show="osi.transactions.actionItems.length > 0">
+    <h2 style="margin-top: 0">Returned Items</h2>
+
+    <div class="panel panel-default">
+      <table class="table table-condensed table-outstanding-items">
+        <tr ng-repeat="item in osi.transactions.actionItems">
+          <td style="width: 20px" class="text-center">
+            <div yom-transaction-indicator="" data-status="{{item.transaction.status}}"></div>
+          </td>
+          <td>
+            <input data-yom-focus-on-callback="osi.updateTransaction(transaction)"
+                   yom-focus-on="item.transaction.showEdit"
+                   ng-show="item.transaction.showEdit"
+                   type="text"
+                   class="inline-text-input"
+                   ng-model="item.transaction.value"/>
+            <span ng-show="!item.transaction.showEdit" class="item">{{item.transaction.value}}</span>
+          </td>
+          <td class="text-right">
+            <a class="action-link" href=""
+               ng-show="item.transaction.status !== osi.transactionStatus.completed && !item.transaction.showEdit"
+               ng-click="osi.editTransaction(transaction)" title="Edit">
+              <i class="ion-edit"></i>
+            </a>
+            <a class="action-link" href=""
+               ng-show="item.transaction.status === osi.transactionStatus.completed"
+               ng-click="osi.reactivate(item.transaction.id)" title="Reactivate">
+              <i class="glyphicon glyphicon-repeat"></i>
+            </a>
+            <a class="action-link" href="" ng-click="osi.confirm(item.transaction.id)"
+               title="Confirm Returned Item">
+              <i class="ion-checkmark"></i>
+            </a>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+
   <h2 style="margin-top: 0">Items owed to you</h2>
 
   <div class="help-block" ng-show="osi.transactions.owed.length === 0">
@@ -37,11 +77,11 @@
           </td>
           <td>
             <input data-yom-focus-on-callback="osi.updateTransaction(transaction)"
-              yom-focus-on="transaction.showEdit"
-              ng-show="transaction.showEdit"
-              type="text"
-              class="inline-text-input"
-              ng-model="transaction.value"/>
+                   yom-focus-on="transaction.showEdit"
+                   ng-show="transaction.showEdit"
+                   type="text"
+                   class="inline-text-input"
+                   ng-model="transaction.value"/>
             <span ng-show="!transaction.showEdit" class="item">{{transaction.value}}</span>
           </td>
           <td class="text-right">
@@ -51,18 +91,9 @@
               <i class="ion-edit"></i>
             </a>
             <a class="action-link" href=""
-               ng-show="transaction.status === osi.transactionStatus.completed"
-               ng-click="osi.reactivate(transaction, transaction.id)" title="Reactivate">
-              <i class="glyphicon glyphicon-repeat"></i>
-            </a>
-            <a class="action-link" href=""
                ng-show="transaction.status !== osi.transactionStatus.completed"
                ng-click="osi.remove(transaction.id, record)" title="Remove">
               <i class="ion-trash-b"></i>
-            </a>
-            <a class="action-link" href="" ng-click="osi.confirm(record.id, transaction.id)"
-               title="Confirm Returned Item">
-              <i class="ion-checkmark"></i>
             </a>
           </td>
         </tr>
