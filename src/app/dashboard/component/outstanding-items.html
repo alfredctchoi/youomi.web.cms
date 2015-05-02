@@ -1,40 +1,43 @@
 <div ng-controller="OutstandingItemsCtrl as osi">
 
-  <h2 style="margin-top: 0">Items owed to you</h2>
+  <h1 style="margin-top: 0">Items owed to you</h1>
 
   <div class="help-block" ng-show="osi.owed.length === 0">
     <i>No one currently owes you anything</i>
   </div>
 
   <div class="gutter owed-item" ng-repeat="record in osi.owed">
-    <div class="row">
-      <div class="col-xs-8">
-        <h4>
-          {{record.name}}
-          <small>({{record.transactions.length}} items)</small>
-        </h4>
-        <div>
-          <small class="text-muted">
-            <i> Last reminder: {{record.lastReminded ? (record.lastReminded | Moment: 'LL') : 'Never'}}</i>
-          </small>
-        </div>
-      </div>
-      <div class="col-sm-4 text-right">
-        <a href="" class="remind-button" ng-click="osi.remind(record, record.owerId)">
-          <i class="ion-email"></i>
-        </a>
-      </div>
-    </div>
 
     <div class="panel panel-default gutter-sm">
+      <div class="panel-body">
+        <div class="row">
+          <div class="col-xs-8">
+            <strong>
+              {{record.name}}
+              <small>({{record.transactions.length}} items)</small>
+            </strong>
+
+            <div>
+              <small class="text-muted">
+                <i> Last reminder: {{record.lastReminded ? (record.lastReminded | Moment: 'LL') : 'Never'}}</i>
+              </small>
+            </div>
+          </div>
+          <div class="col-sm-4 text-right">
+            <a ng-if="record.canRemind"
+               href="" class="remind-button" ng-click="osi.remind(record, record.owerId)">
+              <i class="ion-email"></i>
+            </a>
+          </div>
+        </div>
+      </div>
       <table class="table table-condensed table-outstanding-items">
         <tr ng-repeat="transaction in record.transactions">
           <td style="width: 20px" class="text-center">
             <div yom-transaction-indicator="" data-status="{{transaction.status}}"></div>
           </td>
           <td>
-            <input
-              yom-focus-on-callback="osi.updateTransaction(transaction)"
+            <input data-yom-focus-on-callback="osi.updateTransaction(transaction)"
               yom-focus-on="transaction.showEdit"
               ng-show="transaction.showEdit"
               type="text"
@@ -77,16 +80,17 @@
   </div>
 
   <div class="gutter owed-item" ng-repeat="record in osi.owe">
-    <div class="row">
-      <div class="col-sm-12">
-        <h4>
-          {{record.name}}
-          <small>({{record.transactions.length}} items)</small>
-        </h4>
-      </div>
-    </div>
-
     <div class="panel panel-default gutter-sm">
+      <div class="panel-body">
+        <div class="row">
+          <div class="col-sm-12">
+            <strong>
+              {{record.name}}
+              <small>({{record.transactions.length}} items)</small>
+            </strong>
+          </div>
+        </div>
+      </div>
       <table class="table table-condensed table-outstanding-items">
         <tr ng-repeat="transaction in record.transactions">
           <td width="20px" style="vertical-align: middle">

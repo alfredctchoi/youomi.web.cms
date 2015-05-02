@@ -42,6 +42,9 @@
     function reset(){
       init();
       vm.transactionForm.$setPristine();
+      if ($state.current.name === 'dashboard.new-transaction'){
+        $state.go('dashboard.home');
+      }
     }
 
     function init() {
@@ -63,9 +66,6 @@
         .create(transaction.type, transaction.value, transaction.owerEmail, transaction.owerName)
         .then(function () {
           reset();
-          if ($state.current.name === 'dashboard.new-transaction'){
-            $state.go('dashboard.home');
-          }
         }, function (error) {
           console.log(error);
         });

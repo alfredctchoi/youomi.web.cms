@@ -15,6 +15,7 @@
       this.owerId = null;
       this.transactions = null;
       this.update = null;
+      this.canRemind = null;
 
       for (var p in arguments[0]) {
         if (!arguments[0].hasOwnProperty(p) || !this.hasOwnProperty(p)) continue;
