@@ -143,6 +143,7 @@
         .remindUser(userId)
         .then(function (updatedRecord) {
           record.lastReminded = updatedRecord.lastReminded;
+          record.canRemind = updatedRecord.canRemind;
         }, function (error) {
 
         });

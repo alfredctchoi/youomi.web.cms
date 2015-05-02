@@ -120,7 +120,7 @@
       } else {
         prom = $http.get(listUrl);
         prom.success(function (items) {
-          listCache = items;
+          listCache = angular.copy(items);
           d.resolve(listCache);
         });
 
@@ -149,7 +149,7 @@
         if (listCache && listCache.owed) {
           for (i = 0; k = listCache.owed[i]; i++) {
             if (k.id !== newTransaction.id) continue;
-            //k.transactions.push(newTransaction.transactions[0]);
+            k.transactions.push(newTransaction.transactions[0]);
             break;
           }
         }
