@@ -2,21 +2,19 @@
   <form ng-submit="login.authenticateFromHome(login.credentials)" novalidate>
 
     <div class="form-group">
-      <label>Email</label>
       <input tabindex="1" type="text" class="form-control input-sm" placeholder="Email"
              ng-model="login.credentials.email"
              required/>
     </div>
 
     <div class="form-group">
-      <label>Password</label>
-      <a ui-sref="home.account.forgot-password">
-        <i>
-          <small>Forgot password?</small>
-        </i>
-      </a>
       <input tabindex="2" type="password" class="form-control input-sm" placeholder="Password"
              ng-model="login.credentials.password" required/>
+      <a ui-sref="home.account.forgot-password">
+      <i>
+        <small>Forgot password?</small>
+      </i>
+    </a>
     </div>
 
     <div class="text-right form-group">

@@ -9,7 +9,8 @@
       cacheKeys = {
         main: 'login',
         sub: {
-          account: 'account'
+          email: 'email',
+          error: 'error'
         }
       },
       cache = $cacheFactory.get(cacheKeys.main) || $cacheFactory(cacheKeys.main);
@@ -36,26 +37,21 @@
     init();
 
     function init() {
+      var emailCache = cache.get(cacheKeys.sub.email);
 
-      var loginCache = cache.get(cacheKeys.sub.account);
-      if (loginCache) {
-        vm.credentials = loginCache;
-        cache.put(cacheKeys.sub.account, null);
-        return;
-      }
-
+      vm.resetPasswordGuid = $state.params.resetPasswordGuid;
+      vm.state = cache.get(cacheKeys.sub.error) ? vm.states.loginError : vm.states.ok;
       vm.credentials = {
-        email: '',
+        email: emailCache ? emailCache : '',
         password: ''
       };
 
-      vm.resetPasswordGuid = $state.params.resetPasswordGuid;
+      resetLoginErrorCache();
     }
 
     function authenticateFromHome(credentials) {
-
       if (!credentials.email || !credentials.password){
-        cache.put(cacheKeys.sub.account, credentials);
+        setLoginErrorState(credentials.email);
         $state.go('home.login');
         return;
       }
@@ -64,9 +60,19 @@
         .then(function(){
           $state.go('dashboard.home');
         }, function(error){
-          cache.put(cacheKeys.sub.account, credentials);
+          setLoginErrorState(credentials.email);
           $state.go('home.login');
         });
+    }
+
+    function setLoginErrorState(email){
+      cache.put(cacheKeys.sub.email, email);
+      cache.put(cacheKeys.sub.error, true);
+    }
+
+    function resetLoginErrorCache(){
+      cache.put(cacheKeys.sub.email, null);
+      cache.put(cacheKeys.sub.error, null);
     }
   }
 

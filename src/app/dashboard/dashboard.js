@@ -27,7 +27,7 @@
       })
       .state('dashboard.new-transaction', {
         url: '/new',
-        templateUrl: 'app/dashboard/component/new-transaction.html'
+        templateUrl: 'app/dashboard/views/new-transaction.html'
       })
   }
 
