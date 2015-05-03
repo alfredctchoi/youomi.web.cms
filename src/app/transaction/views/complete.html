@@ -1,7 +1,7 @@
-<div ng-controller="TransactionCtrl as trans" ng-init="trans.complete(trans.completeId)">
+<div ng-controller="TransactionCtrl as trans" ng-init="trans.getReminderList(trans.completeId)">
   <div class="row">
     <div class="col-lg-6 col-lg-offset-3">
-      <h1>Item Return</h1>
+      <h1>Outstanding Items</h1>
 
       <div ng-show="trans.state === trans.states.loading">
         Completing request...
@@ -12,8 +12,19 @@
       </div>
 
       <div ng-show="trans.state === trans.states.ok">
-        <strong>{{trans.transaction.value}}</strong>
-        has been marked returned and the owner has been notified.
+        <p>Click on the checkmark on the right to mark the item completed.</p>
+        <div class="panel panel-default">
+          <table class="table table-outstanding-items">
+            <tr ng-repeat="transaction in trans.transactions">
+              <td style="vertical-align: middle">{{transaction.value}}</td>
+              <td class="text-right" style="vertical-align: middle">
+                <a href="" ng-click="trans.complete(transaction.identifier)" class="action-link">
+                  <i class="ion-checkmark"></i>
+                </a>
+              </td>
+            </tr>
+          </table>
+        </div>
       </div>
     </div>
   </div>

@@ -18,6 +18,23 @@
     this.confirm = confirm;
     this.returnItem = returnItem;
     this.reactivate = reactivate;
+    this.getReminderList = getReminderList;
+
+    function getReminderList(guid) {
+      var d = $q.defer(),
+        reminderUrl = dashboardUrl + '/reminder/' + guid,
+        prom = $http.get(reminderUrl, null);
+
+      prom.success(function (data) {
+        d.resolve(data);
+      });
+
+      prom.error(function (err) {
+        d.reject(err);
+      });
+
+      return d.promise;
+    }
 
     function remove(id, recordId) {
       var d = $q.defer(),

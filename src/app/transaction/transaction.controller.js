@@ -9,6 +9,7 @@
 
     var vm = this;
     vm.complete = complete;
+    vm.getReminderList = getReminderList;
     vm.showSignUpForm = false;
     vm.states = {
       none: 0,
@@ -24,14 +25,31 @@
       vm.completeId = $state.params.transactionId;
     }
 
-    function complete (id){
+    function getReminderList(guid){
       vm.state = vm.states.loading;
       TransactionService
-        .complete(id)
+        .getReminderList(guid)
         .then(function(response){
           vm.state = vm.states.ok;
           vm.showSignUpForm = !response.isUserActive;
-          vm.transaction = response.transaction;
+          vm.transactions = response.transactions;
+        }, function(err){
+          vm.state = vm.states.error;
+          vm.error = err.message;
+        });
+    }
+
+    function complete (id){
+      TransactionService
+        .complete(id)
+        .then(function(){
+          var i, transaction;
+          for (i = 0; transaction = vm.transactions[i]; i++){
+            if (transaction.identifier === id){
+              vm.transactions.splice(i, 1);
+              break;
+            }
+          }
         }, function(err){
           vm.state = vm.states.error;
           vm.error = err.message;
