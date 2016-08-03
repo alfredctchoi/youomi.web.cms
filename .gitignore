@@ -3,6 +3,4 @@ bower_components/
 .sass-cache/
 .tmp/
 dist/
-.idea/encodings.xml
-.idea/workspace.xml
-.idea/dictionaries/Alfred.xml
+.idea/
