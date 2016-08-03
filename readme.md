@@ -1,6 +1,10 @@
-- reactivate transaction if not complete [done]
-- add ability to register from return page
-- add ability to return multiple items from return page
-- update user session token to be more secure
-- refactor structure
-- add error handling in dashboard
+###General
+The goal of the application is to allow users to easily keep track of what is owed to them and what the user owes to other people.
+
+### Technologies Used
+This project was generated via Yeoman scaffolding tool.  The following technologies are used in the project:
+* NodeJS + NPM
+* AngularJS
+* Bower
+* Gulp
+* SASS
